@@ -17,18 +17,22 @@ import scalafx.stage.{Screen, Stage, StageStyle}
 
 object Splash {
 
-    private val SplashImage = "https://avatars1.githubusercontent.com/u/38626935?s=200&v=4"
-    private val SplashWidth = 676
-    private val SplashHeight = 227
+  private val SplashImage = "https://avatars1.githubusercontent.com/u/38626935?s=200&v=4"
+  private val SplashWidth = 676
+  private val SplashHeight = 227
 
-    private val splash = new ImageView(new Image(SplashImage))
-    private val loadProgress = new ProgressBar {
-      prefWidth = SplashWidth - 20
-    }
-    private val progressText = new Label("Démarrage de Sielo ...") {
-      alignment = Pos.Center
-    }
+  private val splash = new ImageView(new Image(SplashImage))
+
+  private val loadProgress = new ProgressBar {
+    prefWidth = SplashWidth - 20
+  }
+
+  private val progressText = new Label("Starting Sielo ...") {
+    alignment = Pos.Center
+  }
+
   private val splashLayout = new VBox() {
+
     children ++= Seq(splash, loadProgress, progressText)
     style =
       "-fx-padding: 5; " +
@@ -43,10 +47,11 @@ object Splash {
     effect = new DropShadow()
   }
 
-    def show(splashStage: Stage, loaderTask: Task[_], onSuccess: () => Unit): Unit = {
-      progressText.text <== loaderTask.message
-      loadProgress.progress <== loaderTask.progress
-      loaderTask.state.onChange { (_, _, newState) =>
+  def show(splashStage: Stage, loaderTask: Task[_], onSuccess: () => Unit): Unit = {
+    progressText.text <== loaderTask.message
+    loadProgress.progress <== loaderTask.progress
+    loaderTask.state.onChange {
+      (_, _, newState) =>
         newState match {
           case Worker.State.Succeeded.delegate =>
             loadProgress.progress.unbind()
@@ -63,16 +68,16 @@ object Splash {
 
           case _ =>
         }
-      }
-
-
-      splashStage.initStyle(StageStyle.Undecorated)
-      splashStage.alwaysOnTop = true
-      splashStage.scene = new Scene(splashLayout)
-      val bounds = Screen.primary.bounds
-      splashStage.x = bounds.minX + bounds.width / 2 - SplashWidth / 2
-      splashStage.y = bounds.minY + bounds.height / 2 - SplashHeight / 2
     }
 
 
+    splashStage.initStyle(StageStyle.Undecorated)
+    splashStage.alwaysOnTop = true
+    splashStage.scene = new Scene(splashLayout)
+    val bounds = Screen.primary.bounds
+    splashStage.x = bounds.minX + bounds.width / 2 - SplashWidth / 2
+    splashStage.y = bounds.minY + bounds.height / 2 - SplashHeight / 2
   }
+
+
+}
