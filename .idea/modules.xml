@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Sielo UI.iml" filepath="$PROJECT_DIR$/.idea/modules/Sielo UI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Sielo UI-build.iml" filepath="$PROJECT_DIR$/.idea/modules/Sielo UI-build.iml" />
-    </modules>
-  </component>
-</project>

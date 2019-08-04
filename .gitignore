@@ -1,3 +1,2 @@
-target/
-project/
-.metals
+﻿/vs2017
+/user-config.cmake
