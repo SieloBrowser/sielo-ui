@@ -1,8 +1,10 @@
-#include <qwidget.h>
+#ifndef WEBRENDER_HPP
+#define WEBRENDER_HPP
 
-#include <qlabel.h>
+#include <QWidget>
+#include <QLabel>
 
-#include <qlayout.h>
+#include <QVBoxLayout>
 
 class WebRender: public QWidget {
 	Q_OBJECT
@@ -15,3 +17,4 @@ private:
 	QVBoxLayout* m_layout{};
 	QLabel* m_info{};
 };
+#endif // WEBRENDER_HPP
