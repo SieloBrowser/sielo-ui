@@ -13,6 +13,8 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 
+include_directories(${CMAKE_SOURCE_DIR}/src)
+
 ###############################
 ### user config config file ###
 ###############################
