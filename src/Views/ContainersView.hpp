@@ -24,6 +24,8 @@ public:
 	Container* insertContainer(Container *container, int x, int y);
 	void detachContainer(Container* container);
 
+	void equalizeSize();
+
 private:
 	void setupUi();
 

@@ -31,7 +31,7 @@ Container* ContainersView::createContainer(const QString& title, int x, int y)
 Container* ContainersView::insertContainer(Container* container, int x, int y)
 {
 	// First, we dont have any coordinate are there is no column 
-	// are that x is greater than column count
+	// are that cordX is greater than column count
 	if (m_columns.isEmpty() || (x == -1 && y == -1) || x >= m_columns.count()) {
 		// We create a new column
 		QSplitter* column{new QSplitter(Qt::Vertical, this)};
@@ -42,22 +42,29 @@ Container* ContainersView::insertContainer(Container* container, int x, int y)
 		m_containers.append(container);
 
 		// Dont forget to update new column coordinate
-		container->x = m_columns.count() - 1;
-		container->y = 0;
+		container->cordX = m_columns.count() - 1;
+		container->cordY = 0;
 
 		return container;
 	}
 
-	// If we want to insert column (y is invalid)
+	// If we want to insert column (cordY is invalid)
 	if (x >= 0 && y == -1) {
 		// We create a column
 		QSplitter* column{new QSplitter(Qt::Vertical, this)};
 		column->addWidget(container);
 
-		// We increase the "x" value of all containers after the new one
+		// We increase the "cordX" value of all containers after the new one
 		for (auto i{x}; i < m_columns.count(); ++i) {
 			for (auto j{0}; j < m_columns[i]->count(); ++j) {
-				++(dynamic_cast<Container*>(m_columns[i]->widget(j)))->x;
+				++(dynamic_cast<Container*>(m_columns[i]->widget(j)))->cordX;
+				//auto* otherContainer = qobject_cast<Container*>(m_columns[i]->widget(j));
+
+				//std::string debug = otherContainer->title().toStdString();
+
+				//otherContainer->cordX = otherContainer->cordX + 1;
+
+				//int pause{0};
 			}
 		}
 
@@ -66,17 +73,17 @@ Container* ContainersView::insertContainer(Container* container, int x, int y)
 		m_containers.append(container);
 
 		// Dont forget to update new column coordinate
-		container->x = x;
-		container->y = 0;
+		container->cordX = x;
+		container->cordY = 0;
 
 		return container;
 	}
 
-	// If we want to insert container in an existing column (both x and y are valide)
+	// If we want to insert container in an existing column (both cordX and cordY are valide)
 	if (x >= 0 && y >= 0) {
-		// We increate the "y" value of current column containers
+		// We increate the "cordY" value of current column containers
 		for (auto i{y}; i < m_columns[x]->count(); ++i) {
-			++(dynamic_cast<Container*>(m_columns[x]->widget(i)))->y;
+			(dynamic_cast<Container*>(m_columns[x]->widget(i)))->cordY = (dynamic_cast<Container*>(m_columns[x]->widget(i)))->cordY + 1;
 		}
 
 		// We finally insert the column
@@ -84,8 +91,8 @@ Container* ContainersView::insertContainer(Container* container, int x, int y)
 		m_containers.append(container);
 
 		// Dont forget to update new column coordinate
-		container->x = x;
-		container->y = y >= m_columns[x]->count() ? m_columns[x]->count() - 1 : y;
+		container->cordX = x;
+		container->cordY = y >= m_columns[x]->count() ? m_columns[x]->count() - 1 : y;
 
 		return container;
 	}
@@ -96,24 +103,42 @@ Container* ContainersView::insertContainer(Container* container, int x, int y)
 void ContainersView::detachContainer(Container* container)
 {
 	// If the widget fill the column
-	if (m_columns[container->x]->count() == 1) {
-		for (auto i{container->x + 1}; i < m_columns.count(); ++i) {
+	if (m_columns[container->cordX]->count() == 1) {
+		for (auto i{container->cordX + 1}; i < m_columns.count(); ++i) {
 			for (auto j{0}; j < m_columns[i]->count(); ++j) {
-				--(dynamic_cast<Container*>(m_columns[i]->widget(j)))->x;
+				--(dynamic_cast<Container*>(m_columns[i]->widget(j)))->cordX;
 			}
 		}
 	}
 	else {
-		for (auto i{container->y}; i < m_columns[container->x]->count(); ++i) {
-			--(dynamic_cast<Container*>(m_columns[container->x]->widget(i)))->y;
+		for (auto i{container->cordY}; i < m_columns[container->cordX]->count(); ++i) {
+			--(dynamic_cast<Container*>(m_columns[container->cordX]->widget(i)))->cordY;
 		}
 	}
 
 	container->setParent(nullptr);
 	container->setContainersView(nullptr);
-	container->x = -1;
-	container->y = -1;
+	container->cordX = -1;
+	container->cordY = -1;
 	m_containers.removeOne(container);
+}
+
+void ContainersView::equalizeSize()
+{
+	QList<int> columnsWidth{};
+
+	for (auto i{0}; i < m_columns.count(); ++i) {
+		QList<int> rowHeights{};
+
+		for (auto j{0}; j < m_columns[i]->count(); ++j) {
+			rowHeights.append(height() / m_columns[i]->count());
+		}
+
+		m_columns[i]->setSizes(rowHeights);
+		columnsWidth.append(width() / m_columns.count());
+	}
+
+	m_containersSplitter->setSizes(columnsWidth);
 }
 
 void ContainersView::setupUi()

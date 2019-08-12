@@ -48,5 +48,5 @@ void ContainerDragWidget::mouseMoveEvent(QMouseEvent* event)
 
 	drag->setMimeData(mimeData);
 
-	auto dropAction = drag->exec(Qt::MoveAction);
+	auto dropAction = drag->exec(Qt::CopyAction);
 }

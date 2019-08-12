@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QLabel>
+#include <QFrame>
 
 #include <QDragEnterEvent>
 #include <QDropEvent>
@@ -22,8 +23,8 @@ public:
 	explicit Container(QString title, ContainersView* containersView, int x, int y, QWidget* parent = nullptr);
 	~Container() = default;
 
-	int x{-1};
-	int y{-1};
+	int cordX{-1};
+	int cordY{-1};
 
 	bool isValid() const;
 
@@ -46,6 +47,8 @@ private:
 	ContainerDragWidget* m_dragWidget{};
 	QLabel* m_titleDesc{}; // TODO: remvove this debugging info
 	WebRender* m_render{};
+
+	QFrame* m_highlightFrame{};
 
 	ContainersView* m_containersView;
 
