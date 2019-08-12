@@ -57,14 +57,12 @@ Container* ContainersView::insertContainer(Container* container, int x, int y)
 		// We increase the "cordX" value of all containers after the new one
 		for (auto i{x}; i < m_columns.count(); ++i) {
 			for (auto j{0}; j < m_columns[i]->count(); ++j) {
-				++(dynamic_cast<Container*>(m_columns[i]->widget(j)))->cordX;
-				//auto* otherContainer = qobject_cast<Container*>(m_columns[i]->widget(j));
+				Container* containerToModify = dynamic_cast<Container*>(m_columns[i]->widget(j));
+				std::string title = containerToModify->title().toStdString();
 
-				//std::string debug = otherContainer->title().toStdString();
+				containerToModify->cordX = containerToModify->cordX + 1;
 
-				//otherContainer->cordX = otherContainer->cordX + 1;
-
-				//int pause{0};
+				int pause{0};
 			}
 		}
 
@@ -102,16 +100,21 @@ Container* ContainersView::insertContainer(Container* container, int x, int y)
 
 void ContainersView::detachContainer(Container* container)
 {
+	QSplitter* column = m_columns[container->cordX];
+
 	// If the widget fill the column
-	if (m_columns[container->cordX]->count() == 1) {
+	if (column->count() == 1) {
 		for (auto i{container->cordX + 1}; i < m_columns.count(); ++i) {
 			for (auto j{0}; j < m_columns[i]->count(); ++j) {
 				--(dynamic_cast<Container*>(m_columns[i]->widget(j)))->cordX;
 			}
 		}
+
+		m_columns.removeOne(column);
+		column->deleteLater();
 	}
 	else {
-		for (auto i{container->cordY}; i < m_columns[container->cordX]->count(); ++i) {
+		for (auto i{container->cordY + 1}; i < m_columns[container->cordX]->count(); ++i) {
 			--(dynamic_cast<Container*>(m_columns[container->cordX]->widget(i)))->cordY;
 		}
 	}

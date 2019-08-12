@@ -60,31 +60,27 @@ void Container::dragEnterEvent(QDragEnterEvent* event)
 void Container::dragMoveEvent(QDragMoveEvent* event)
 {
 	if (event->mimeData()->hasFormat("container")) {
-		QRect topRect(x() + width() / 3, y(), width() / 3, height() / 3);
-		QRect bottomRect(x() + width() / 3, (y() + height()) - height() / 3, width() / 3, height() / 3);
-		QRect leftRect(x(), y(), width() / 3, height());
-		QRect rightRect((x() + width()) - width() / 3, y(), width() / 3, height());
+		const QRect topRect(x(), y(), width(), height() / 3);
+		const QRect bottomRect(x(), y() + height() * 2 / 3, width(), height() / 3);
+		const QRect leftRect(x(), y(), width() / 2, height());
+		const QRect rightRect(x() + width() / 2, y(), width() / 2, height());
 
-		QRect showningTopRect(mapFromParent(QPoint(x(), y())), QPoint(width(), height() / 3));
-		QRect showningBottomRect(mapFromParent(QPoint(x(), y())).x(), mapFromParent(QPoint(x(), y())).y() + height() * 2/3, width(), height() / 3);
-		QRect showningLeftRect(mapFromParent(QPoint(x(), y())), QPoint(width() / 3, height()));
-		QRect showningRightRect(mapFromParent(QPoint(x(), y())).x() + width() * 2/3, mapFromParent(QPoint(x(), y())).y(), width() / 3, height());
+		const QRect showingTopRect(mapFromParent(QPoint(x(), y())), QPoint(width(), height() / 3));
+		const QRect showingBottomRect(mapFromParent(QPoint(x(), y())).x(), mapFromParent(QPoint(x(), y())).y() + height() * 2/3, width(), height() / 3);
+		const QRect showingLeftRect(mapFromParent(QPoint(x(), y())), QPoint(width() / 3, height()));
+		const QRect showingRightRect(mapFromParent(QPoint(x(), y())).x() + width() * 2/3, mapFromParent(QPoint(x(), y())).y(), width() / 3, height());
 
 		if (topRect.contains(mapToParent(event->pos()))) {
-			m_highlightFrame->setGeometry(showningTopRect);
-			qDebug("Contains in TOP");
+			m_highlightFrame->setGeometry(showingTopRect);
 		}
 		else if (bottomRect.contains(mapToParent(event->pos()))) {
-			m_highlightFrame->setGeometry(showningBottomRect); 
-			qDebug("Contains in BOTTOM");
+			m_highlightFrame->setGeometry(showingBottomRect); 
 		}
 		else if (leftRect.contains(mapToParent(event->pos()))) {
-			m_highlightFrame->setGeometry(showningLeftRect); 
-			qDebug("Contains in LEFT");
+			m_highlightFrame->setGeometry(showingLeftRect); 
 		}
 		else if (rightRect.contains(mapToParent(event->pos()))) {
-			m_highlightFrame->setGeometry(showningRightRect); 
-			qDebug("Contains in RIGHT");
+			m_highlightFrame->setGeometry(showingRightRect); ;
 		}
 
 		event->acceptProposedAction();
@@ -110,6 +106,11 @@ void Container::dropEvent(QDropEvent* event)
 	if (event->mimeData()->hasFormat("container")) {
 		Container* dropContainer = qobject_cast<const ContainerMimeData*>(event->mimeData())->container();
 
+		const QRect topRect(x(), y(), width(), height() / 3);
+		const QRect bottomRect(x(), y() + height() * 2 / 3, width(), height() / 3);
+		const QRect leftRect(x(), y(), width() / 2, height());
+		const QRect rightRect(x() + width() / 2, y(), width() / 2, height());
+
 		if (dropContainer != this) {
 			// We detach the dropped container
 			dropContainer->containersView()->detachContainer(dropContainer);
@@ -117,13 +118,6 @@ void Container::dropEvent(QDropEvent* event)
 			// We attach and insert it to his new container, in a new column right now
 			dropContainer->setContainersView(m_containersView);
 		}
-
-		QRect topRect(x() + width() / 3, y(), width() / 3, height() / 3);
-		QRect bottomRect(x() + width() / 3, (y() + height()) - height() / 3, width() / 3, height() / 3);
-		QRect leftRect(x(), y(), width() / 3, height());
-		QRect rightRect((x() + width()) - width() / 3, y(), width() / 3, height());
-
-		std::string debug = m_title.toStdString();
 
 		if (topRect.contains(mapToParent(event->pos()))) {
 			if (dropContainer == this) {
@@ -135,9 +129,9 @@ void Container::dropEvent(QDropEvent* event)
 				return;
 			}
 
-			m_containersView->insertContainer(dropContainer, cordX, cordY >  0 ? cordY - 1 : 0);
+			m_containersView->insertContainer(dropContainer, cordX, cordY);
 		}
-		else if (dropContainer != this && bottomRect.contains(mapToParent(event->pos()))) {
+		else if (bottomRect.contains(mapToParent(event->pos()))) {
 			if (dropContainer == this) {
 				m_highlightFrame->deleteLater();
 				m_highlightFrame = nullptr;
