@@ -11,7 +11,7 @@ class WebRender: public QWidget {
 
 public:
 	explicit WebRender(QWidget* parent = nullptr);
-	~WebRender();
+	~WebRender() = default;
 
 private:
 	QVBoxLayout* m_layout{};

@@ -10,7 +10,8 @@
 
 #include <QHBoxLayout>
 
-class WebRender;
+class LateralBar;
+class TabsView;
 
 class ContainersView;
 
@@ -20,7 +21,7 @@ class Container : public QWidget {
 	Q_OBJECT
 
 public:
-	explicit Container(QString title, ContainersView* containersView, int x, int y, QWidget* parent = nullptr);
+	explicit Container(ContainersView* containersView, int x, int y, QWidget* parent = nullptr);
 	~Container() = default;
 
 	int cordX{-1};
@@ -42,11 +43,11 @@ protected:
 private:
 	void setupUi();
 
-	QHBoxLayout* m_layout{};
+	QGridLayout* m_layout{};
 
 	ContainerDragWidget* m_dragWidget{};
-	QLabel* m_titleDesc{}; // TODO: remvove this debugging info
-	WebRender* m_render{};
+	LateralBar* m_lateralBar{};
+	TabsView* m_tabsView{};
 
 	QFrame* m_highlightFrame{};
 

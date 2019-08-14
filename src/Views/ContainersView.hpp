@@ -20,7 +20,7 @@ public:
 	explicit ContainersView(QWidget* parent = nullptr);
 	~ContainersView() = default;
 
-	Container* createContainer(const QString& title, int x = -1, int y = -1);
+	Container* createContainer(int x = -1, int y = -1);
 	Container* insertContainer(Container *container, int x, int y);
 	void detachContainer(Container* container);
 

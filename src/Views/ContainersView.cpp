@@ -5,25 +5,20 @@
 ContainersView::ContainersView(QWidget* parent) :
 	QWidget(parent)
 {
+	setObjectName("sielo-view-containers");
 	setupUi();
 
 	show();
 
-	auto cont1 = createContainer("Container 1", 0, 0);
-	auto cont2 = createContainer("Container 2", 1, 0);
-	auto cont3 = createContainer("Container 3", 2, 0);
-	auto cont4 = createContainer("Container 4", 0, 1);
-	auto cont5 = createContainer("Container 5", 0, 2);
-	auto cont6 = createContainer("Container 6", 1, 1);
-	auto cont7 = createContainer("Container 7", 1, 2);
-	auto cont8 = createContainer("Container 8", 2, 1);
-	auto cont9 = createContainer("Container 9", 2, 2);
+	auto cont1 = createContainer(0, 0);
+	auto cont2 = createContainer(1, 0);
+	auto cont3 = createContainer(0, 1);
 
 }
 
-Container* ContainersView::createContainer(const QString& title, int x, int y)
+Container* ContainersView::createContainer(int x, int y)
 {
-	const auto container{new Container(title, this, x, y)};
+	const auto container{new Container(this, x, y)};
 
 	return insertContainer(container, x, y);
 }

@@ -6,15 +6,16 @@
 
 #include "ContainerDragWidget.hpp"
 #include "ContainersView.hpp"
-#include "WebRender.hpp"
+#include "LateralBar.hpp"
+#include "TabsView.hpp"
 
-Container::Container(QString title, ContainersView* containersView, int x, int y, QWidget* parent) :
-	QWidget(parent), cordX(x), cordY(y), m_containersView(containersView), m_title(std::move(title))
+Container::Container(ContainersView* containersView, int x, int y, QWidget* parent) :
+	QWidget(parent), cordX(x), cordY(y), m_containersView(containersView)
 {
+	setObjectName("sielo-container");
 	setupUi();
-
+	
 	setAcceptDrops(true);
-	setAutoFillBackground(true);
 }
 
 bool Container::isValid() const
@@ -163,13 +164,16 @@ void Container::dropEvent(QDropEvent* event)
 
 void Container::setupUi()
 {
-	m_layout = new QHBoxLayout(this);
+	m_layout = new QGridLayout(this);
 
 	m_dragWidget = new ContainerDragWidget(this);
-	m_titleDesc = new QLabel(m_title, this);
-	m_render = new WebRender(this);
+	m_lateralBar = new LateralBar(this);
+	m_tabsView = new TabsView(this);
 
-	m_layout->addWidget(m_dragWidget);
-	m_layout->addWidget(m_titleDesc);
-	m_layout->addWidget(m_render);
+	m_lateralBar->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
+	m_tabsView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+
+	m_layout->addWidget(m_dragWidget, 0, 0, 1, 2);
+	m_layout->addWidget(m_lateralBar, 1, 0, 1, 1);
+	m_layout->addWidget(m_tabsView, 1, 1, 1, 1);
 }

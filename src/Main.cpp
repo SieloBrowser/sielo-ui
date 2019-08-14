@@ -25,11 +25,13 @@ int main(int argc, char** argv)
 {
 	QApplication app{argc, argv};
 
-	const auto relativePath{QDir::current().relativeFilePath("themes")};
+	const auto relativePath{QDir::current().relativeFilePath(QDir::current().absolutePath() + "/themes/")};
 	auto style{readFile(QDir::current().absolutePath() + "/themes/default.sss")};
 
 	style.replace(QRegExp(QStringLiteral("url\\s*\\(\\s*([^\\*:\\);]+)\\s*\\)")),
 				QString("url(%1/\\1)").arg(relativePath));
+
+	std::string stdStyle = style.toStdString();
 
 	app.setStyleSheet(style);
 
