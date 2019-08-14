@@ -32,14 +32,20 @@ file(
     src/*.cpp
 )
 
+file(
+        GLOB_RECURSE
+        QRC_FILES
+        *.qrc
+)
+
 ##################
 ### create exe ###
 ##################
 
 if (WIN32)
-    add_executable(sielo-ui WIN32 ${SOURCE_FILES} ic_sielo.rc)
+    add_executable(sielo-ui WIN32 ${SOURCE_FILES}  ${QRC_FILES})
 else()
-    add_executable(sielo-ui ${SOURCE_FILES})
+    add_executable(sielo-ui ${SOURCE_FILES} ${QRC_FILES})
 endif()
 
 ################

@@ -40,6 +40,9 @@ protected:
 	void dragLeaveEvent(QDragLeaveEvent* event) override;
 	void dropEvent(QDropEvent* event) override;
 
+	// Workaround for stylesheet
+	void paintEvent(QPaintEvent* event) override;
+
 private:
 	void setupUi();
 

@@ -26,6 +26,10 @@ public:
 
 	void equalizeSize();
 
+protected:
+	// Workaround to apply stylesheet
+	void paintEvent(QPaintEvent* event) override;
+
 private:
 	void setupUi();
 

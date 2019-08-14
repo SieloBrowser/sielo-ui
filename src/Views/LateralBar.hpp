@@ -3,11 +3,11 @@
 
 #include <QWidget>
 
-#include <QPushButton>
-
 #include <QScrollArea>
 
 #include <QVBoxLayout>
+
+class BubbleButton;
 
 class LateralBar : public QWidget {
 	Q_OBJECT
@@ -16,9 +16,13 @@ public:
 	explicit LateralBar(QWidget* parent = nullptr);
 	~LateralBar() = default;
 
-	void addTab(QPushButton* button);
-	void removeTab(QPushButton* button);
+	void addTab(BubbleButton* button);
+	void removeTab(BubbleButton* button);
 
+protected:
+	// Workaround for stylesheet
+	void paintEvent(QPaintEvent* event) override;
+	
 private:
 	void setupUi();
 

@@ -1,0 +1,10 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/bookmarks.svg</file>
+        <file>icons/history.svg</file>
+        <file>icons/profile.svg</file>
+        <file>icons/show_tabs.svg</file>
+        <file>icons/tab_add.svg</file>
+    </qresource>
+</RCC>
+

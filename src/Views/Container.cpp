@@ -2,6 +2,9 @@
 
 #include <utility>
 
+#include <QStyleOption>
+#include <QPainter>
+
 #include "Utils/ContainerMimeData.hpp"
 
 #include "ContainerDragWidget.hpp"
@@ -160,6 +163,16 @@ void Container::dropEvent(QDropEvent* event)
 	}
 
 	QWidget::dropEvent(event);
+}
+
+void Container::paintEvent(QPaintEvent* event)
+{
+	QStyleOption options{};
+	options.initFrom(this);
+
+	QPainter painter{this};
+
+	style()->drawPrimitive(QStyle::PE_Widget, &options, &painter, this);
 }
 
 void Container::setupUi()

@@ -1,5 +1,8 @@
 #include "ContainersView.hpp"
 
+#include <QStyleOption>
+#include <QPainter>
+
 #include "Container.hpp"
 
 ContainersView::ContainersView(QWidget* parent) :
@@ -137,6 +140,16 @@ void ContainersView::equalizeSize()
 	}
 
 	m_containersSplitter->setSizes(columnsWidth);
+}
+
+void ContainersView::paintEvent(QPaintEvent* event)
+{
+	QStyleOption options{};
+	options.initFrom(this);
+
+	QPainter painter{this};
+	
+	style()->drawPrimitive(QStyle::PE_Widget, &options, &painter, this);
 }
 
 void ContainersView::setupUi()

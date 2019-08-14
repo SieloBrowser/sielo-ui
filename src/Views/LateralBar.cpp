@@ -1,5 +1,10 @@
 #include "LateralBar.hpp"
 
+#include <QStyleOption>
+#include <QPainter>
+
+#include "BubbleButton.hpp"
+
 LateralBar::LateralBar(QWidget* parent) :
 	QWidget(parent)
 {
@@ -7,24 +12,31 @@ LateralBar::LateralBar(QWidget* parent) :
 	setupUi();
 
 	//setStyleSheet("#sielo-lateral-bar { background: magenta; }");
-
-	addTab(new QPushButton("Onglet 1", this));
-	addTab(new QPushButton("Onglet 2", this));
 }
 
-void LateralBar::addTab(QPushButton* button)
+void LateralBar::addTab(BubbleButton* button)
 {
 	m_tabsButtonsLayout->insertWidget(m_tabsButtonsLayout->count() - 2, button);
 }
 
-void LateralBar::removeTab(QPushButton* button)
+void LateralBar::removeTab(BubbleButton* button)
 {
 	m_tabsButtonsLayout->removeWidget(button);
 }
 
+void LateralBar::paintEvent(QPaintEvent* event)
+{
+	QStyleOption options{};
+	options.initFrom(this);
+
+	QPainter painter{this};
+
+	style()->drawPrimitive(QStyle::PE_Widget, &options, &painter, this);
+}
+
 void LateralBar::setupUi()
 {
-	setMaximumWidth(196);
+	setMaximumWidth(146);
 
 	m_layout = new QVBoxLayout(this);
 
@@ -43,6 +55,7 @@ void LateralBar::setupUi()
 	m_controlesButtonsWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
 	m_tabsButtonsScrollArea = new QScrollArea(this);
+	m_tabsButtonsScrollArea->setObjectName("sielo-lateral-bar-scrollarea");
 	m_tabsButtonsScrollArea->setWidget(m_tabsButtonsWidget);
 	m_tabsButtonsScrollArea->setWidgetResizable(true);
 
@@ -50,11 +63,15 @@ void LateralBar::setupUi()
 	m_layout->addWidget(m_controlesButtonsWidget);
 
 	// TODO: fromalize that
-	m_tabsButtonsLayout->addWidget(new QPushButton("+", this));
+	m_tabsButtonsLayout->addWidget(new BubbleButton("tab_add", this));
 	m_tabsButtonsLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Preferred, QSizePolicy::Expanding));
 
-	m_controlesButtonsLayout->addWidget(new QPushButton("<3", this));
-	m_controlesButtonsLayout->addWidget(new QPushButton("()", this));
-	m_controlesButtonsLayout->addWidget(new QPushButton("[]", this));
-	m_controlesButtonsLayout->addWidget(new QPushButton(":3", this));
+	m_controlesButtonsLayout->addWidget(new BubbleButton("bookmarks", this));
+	m_controlesButtonsLayout->addWidget(new BubbleButton("history", this));
+	m_controlesButtonsLayout->addWidget(new BubbleButton("show_tabs", this));
+	m_controlesButtonsLayout->addWidget(new BubbleButton("profile", this));
+
+	m_layout->setMargin(0);
+	m_controlesButtonsLayout->setMargin(24);
+	m_tabsButtonsLayout->setMargin(24);
 }
