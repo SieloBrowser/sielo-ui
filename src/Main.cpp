@@ -23,6 +23,8 @@ QString readFile(const QString& filename)
 
 int main(int argc, char** argv)
 {
+	qputenv("QT_AUTO_SCREEN_SCALE_FACTOR", "1");
+
 	QApplication app{argc, argv};
 
 	const auto relativePath{QDir::current().relativeFilePath(QDir::current().absolutePath() + "/themes/")};

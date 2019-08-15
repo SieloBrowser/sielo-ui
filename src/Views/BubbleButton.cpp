@@ -9,8 +9,8 @@ BubbleButton::BubbleButton(const QString& icon, QWidget* parent) :
 {
 	setObjectName("sielo-bubble-button-" + icon);
 
-	setFixedSize(96, 96);
-	setIconSize(QSize(48, 48));
+	setFixedSize(48, 48);
+	setIconSize(QSize(24, 24));
 
 	//setIcon(QIcon::fromTheme(icon, QIcon(":icons/" + icon + ".svg")));
 	setIcon(QIcon::fromTheme(icon, QIcon(QDir::current().absolutePath() + "/themes/icons/" + icon + ".svg")));

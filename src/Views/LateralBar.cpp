@@ -43,7 +43,7 @@ void LateralBar::paintEvent(QPaintEvent* event)
 
 void LateralBar::setupUi()
 {
-	setMaximumWidth(146);
+	setMaximumWidth(64);
 
 	m_layout = new QVBoxLayout(this);
 
@@ -85,6 +85,6 @@ void LateralBar::setupUi()
 	m_controlesButtonsLayout->addWidget(m_buttonProfile);
 
 	m_layout->setMargin(0);
-	m_controlesButtonsLayout->setMargin(24);
-	m_tabsButtonsLayout->setMargin(24);
+	m_controlesButtonsLayout->setMargin(8);
+	m_tabsButtonsLayout->setMargin(8);
 }

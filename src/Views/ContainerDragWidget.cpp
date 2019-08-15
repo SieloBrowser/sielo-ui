@@ -20,7 +20,7 @@ ContainerDragWidget::ContainerDragWidget(Container* parent) :
 	pal.setColor(QPalette::Background, Qt::black);
 	setPalette(pal);
 
-	setMinimumSize(64, 64);
+	setMinimumSize(16, 16);
 }
 
 void ContainerDragWidget::mousePressEvent(QMouseEvent* event)
