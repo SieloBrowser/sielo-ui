@@ -3,25 +3,32 @@
 #include <QStyleOption>
 #include <QPainter>
 
+#include "Container.hpp"
+
+#include "Tab.hpp"
+
 #include "BubbleButton.hpp"
 
-LateralBar::LateralBar(QWidget* parent) :
-	QWidget(parent)
+LateralBar::LateralBar(Container* parent) :
+	QWidget(parent),
+	m_container(parent)
 {
 	setObjectName("sielo-lateral-bar");
 	setupUi();
 
 	//setStyleSheet("#sielo-lateral-bar { background: magenta; }");
+
+	connect(m_buttonAddTab, &BubbleButton::clicked, m_container, &Container::addNewTab);
 }
 
-void LateralBar::addTab(BubbleButton* button)
+void LateralBar::addTab(Tab* button)
 {
-	m_tabsButtonsLayout->insertWidget(m_tabsButtonsLayout->count() - 2, button);
+	m_tabsButtonsLayout->insertWidget(m_tabsButtonsLayout->count() - 2, button->tabIcon());
 }
 
-void LateralBar::removeTab(BubbleButton* button)
+void LateralBar::removeTab(Tab* button)
 {
-	m_tabsButtonsLayout->removeWidget(button);
+	m_tabsButtonsLayout->removeWidget(button->tabIcon());
 }
 
 void LateralBar::paintEvent(QPaintEvent* event)
@@ -62,14 +69,20 @@ void LateralBar::setupUi()
 	m_layout->addWidget(m_tabsButtonsScrollArea);
 	m_layout->addWidget(m_controlesButtonsWidget);
 
+	m_buttonAddTab = new BubbleButton("tab_add", this);
+	m_buttonBookmarks = new BubbleButton("bookmarks", this);
+	m_buttonHistory = new BubbleButton("history", this);
+	m_buttonShowTabs = new BubbleButton("show_tabs", this);
+	m_buttonProfile = new BubbleButton("profile", this);
+
 	// TODO: fromalize that
-	m_tabsButtonsLayout->addWidget(new BubbleButton("tab_add", this));
+	m_tabsButtonsLayout->addWidget(m_buttonAddTab);
 	m_tabsButtonsLayout->addItem(new QSpacerItem(10, 10, QSizePolicy::Preferred, QSizePolicy::Expanding));
 
-	m_controlesButtonsLayout->addWidget(new BubbleButton("bookmarks", this));
-	m_controlesButtonsLayout->addWidget(new BubbleButton("history", this));
-	m_controlesButtonsLayout->addWidget(new BubbleButton("show_tabs", this));
-	m_controlesButtonsLayout->addWidget(new BubbleButton("profile", this));
+	m_controlesButtonsLayout->addWidget(m_buttonBookmarks);
+	m_controlesButtonsLayout->addWidget(m_buttonHistory);
+	m_controlesButtonsLayout->addWidget(m_buttonShowTabs);
+	m_controlesButtonsLayout->addWidget(m_buttonProfile);
 
 	m_layout->setMargin(0);
 	m_controlesButtonsLayout->setMargin(24);

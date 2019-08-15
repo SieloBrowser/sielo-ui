@@ -17,6 +17,8 @@ class ContainersView;
 
 class ContainerDragWidget;
 
+class Tab;
+
 class Container : public QWidget {
 	Q_OBJECT
 
@@ -33,6 +35,11 @@ public:
 
 	ContainersView* containersView() const;
 	void setContainersView(ContainersView* containersView);
+
+	void addNewTab();
+	void removeTab(Tab* tab);
+
+	QVector<Tab*> tabs() const;
 
 protected:
 	void dragEnterEvent(QDragEnterEvent* event) override;
@@ -57,6 +64,8 @@ private:
 	ContainersView* m_containersView;
 
 	QString m_title{"Title"};
+
+	QVector<Tab*> m_tabs{};
 };
 
 #endif // CONTAINER_HPP

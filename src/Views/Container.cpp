@@ -12,6 +12,8 @@
 #include "LateralBar.hpp"
 #include "TabsView.hpp"
 
+#include "Tab.hpp";
+
 Container::Container(ContainersView* containersView, int x, int y, QWidget* parent) :
 	QWidget(parent), cordX(x), cordY(y), m_containersView(containersView)
 {
@@ -39,6 +41,26 @@ ContainersView* Container::containersView() const
 void Container::setContainersView(ContainersView* containersView)
 {
 	m_containersView = containersView;
+}
+
+void Container::addNewTab()
+{
+	auto* newTab{new Tab(QString::number(m_tabs.count() + 1), this)};
+	m_tabs.append(newTab);
+
+	m_lateralBar->addTab(newTab);
+
+	m_tabsView->organize();
+}
+
+void Container::removeTab(Tab* tab)
+{
+	// TODO: implement
+}
+
+QVector<Tab*> Container::tabs() const
+{
+	return m_tabs;
 }
 
 void Container::dragEnterEvent(QDragEnterEvent* event)
@@ -178,13 +200,14 @@ void Container::paintEvent(QPaintEvent* event)
 void Container::setupUi()
 {
 	m_layout = new QGridLayout(this);
+	m_layout->setSpacing(0);
 
 	m_dragWidget = new ContainerDragWidget(this);
 	m_lateralBar = new LateralBar(this);
 	m_tabsView = new TabsView(this);
 
 	m_lateralBar->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Preferred);
-	m_tabsView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+	m_tabsView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
 	m_layout->addWidget(m_dragWidget, 0, 0, 1, 2);
 	m_layout->addWidget(m_lateralBar, 1, 0, 1, 1);

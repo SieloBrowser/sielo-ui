@@ -19,7 +19,7 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 ### user config config file ###
 ###############################
 
-include("${CMAKE_SOURCE_DIR}\\user-config.cmake")
+include("${CMAKE_SOURCE_DIR}\\user-config.cmake" OPTIONAL)
 
 #####################
 ### include files ###
@@ -43,7 +43,7 @@ file(
 ##################
 
 if (WIN32)
-    add_executable(sielo-ui WIN32 ${SOURCE_FILES}  ${QRC_FILES})
+    add_executable(sielo-ui WIN32 ${SOURCE_FILES}  ${QRC_FILES} ic_sielo.rc)
 else()
     add_executable(sielo-ui ${SOURCE_FILES} ${QRC_FILES})
 endif()

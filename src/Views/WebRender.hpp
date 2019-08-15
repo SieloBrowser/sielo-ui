@@ -13,6 +13,9 @@ public:
 	explicit WebRender(QWidget* parent = nullptr);
 	~WebRender() = default;
 
+protected:
+	void paintEvent(QPaintEvent* event) override;
+
 private:
 	QVBoxLayout* m_layout{};
 	QLabel* m_info{};
