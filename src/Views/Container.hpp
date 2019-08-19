@@ -39,6 +39,8 @@ public:
 	void addNewTab();
 	void removeTab(Tab* tab);
 
+	void organize();
+
 	QVector<Tab*> tabs() const;
 
 protected:

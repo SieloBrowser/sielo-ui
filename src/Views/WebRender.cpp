@@ -7,7 +7,7 @@ WebRender::WebRender(QWidget* parent) :
 	QWidget(parent)
 {
 	setObjectName("sielo-web-render");
-	setMinimumHeight(512);
+	setMinimumHeight(248);
 
 	m_layout = new QVBoxLayout(this);
 

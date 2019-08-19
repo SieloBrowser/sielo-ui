@@ -49,13 +49,30 @@ void Container::addNewTab()
 	m_tabs.append(newTab);
 
 	m_lateralBar->addTab(newTab);
-
-	m_tabsView->organize();
+	m_tabsView->setActiveTab(newTab);
 }
 
 void Container::removeTab(Tab* tab)
 {
 	// TODO: implement
+}
+
+void Container::organize()
+{
+	if (m_tabs.isEmpty())
+		return;
+
+	if (m_tabsView->state() == TabsView::Full) {
+		m_tabsView->organize();
+		m_lateralBar->hideTabs();
+	}
+	else {
+		m_tabsView->setActiveTab(m_tabs[0]);
+		for (auto tab : m_tabs) {
+			m_lateralBar->addTab(tab);
+		}
+		m_lateralBar->showTabs();
+	}
 }
 
 QVector<Tab*> Container::tabs() const

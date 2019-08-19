@@ -159,8 +159,6 @@ void ContainersView::setupUi()
 	m_addressBar = new QLineEdit(this);
 	m_containersSplitter = new QSplitter(Qt::Horizontal, this);
 
-	m_layout->setMargin(0);
-
 	m_layout->addWidget(m_addressBar);
 	m_layout->addWidget(m_containersSplitter);
 }

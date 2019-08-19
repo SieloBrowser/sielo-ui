@@ -19,6 +19,8 @@ LateralBar::LateralBar(Container* parent) :
 	//setStyleSheet("#sielo-lateral-bar { background: magenta; }");
 
 	connect(m_buttonAddTab, &BubbleButton::clicked, m_container, &Container::addNewTab);
+
+	connect(m_buttonShowTabs, &BubbleButton::clicked, m_container, &Container::organize);
 }
 
 void LateralBar::addTab(Tab* button)
@@ -29,6 +31,16 @@ void LateralBar::addTab(Tab* button)
 void LateralBar::removeTab(Tab* button)
 {
 	m_tabsButtonsLayout->removeWidget(button->tabIcon());
+}
+
+void LateralBar::showTabs()
+{
+	m_tabsButtonsWidget->show();
+}
+
+void LateralBar::hideTabs()
+{
+	m_tabsButtonsWidget->hide();
 }
 
 void LateralBar::paintEvent(QPaintEvent* event)

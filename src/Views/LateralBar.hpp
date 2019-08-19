@@ -23,6 +23,9 @@ public:
 	void addTab(Tab* button);
 	void removeTab(Tab* button);
 
+	void showTabs();
+	void hideTabs();
+
 protected:
 	// Workaround for stylesheet
 	void paintEvent(QPaintEvent* event) override;

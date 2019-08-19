@@ -3,6 +3,10 @@
 
 #include <QWidget>
 
+#include <QPushButton>
+
+#include <QGridLayout>
+
 class BubbleButton;
 
 class WebRender;
@@ -14,13 +18,18 @@ public:
 	explicit  Tab(const QString& icon = "1", QWidget* parent = nullptr);
 	~Tab() = default;
 
+	void cardState();
+
 	BubbleButton* tabIcon() const;
 	void setIcon(const QIcon& icon);
 
 	WebRender* tabRender() const;
 
 private:
+	QGridLayout* m_layout{};
+
 	BubbleButton* m_tabIcon{};
+	QPushButton* m_closeButton{};
 	WebRender* m_tabRender{};
 };
 
